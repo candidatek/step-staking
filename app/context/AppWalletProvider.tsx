@@ -1,6 +1,6 @@
 "use client";
  
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ConnectionProvider,
   WalletProvider,
@@ -8,6 +8,8 @@ import {
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 // import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
  
 // Default styles that can be overridden by your app
@@ -28,11 +30,17 @@ export default function AppWalletProvider({
       ],
       [network],
     );
+    const [queryClient] = useState(() => new QueryClient());
+
    
     return (
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
-          <WalletModalProvider>{children}</WalletModalProvider>
+          <WalletModalProvider >
+              <QueryClientProvider client={queryClient}>
+              {children}
+              </QueryClientProvider>
+             </WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>
     );

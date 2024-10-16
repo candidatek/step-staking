@@ -26,7 +26,7 @@ export const WalletButton = () => {
         <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
                 
-                <span>{(publicKey!)}</span>
+                {/* <span>{(publicKey!)}</span> */}
             </div>
             <div className="flex items-center gap-3">
                 <a
