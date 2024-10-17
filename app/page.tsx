@@ -1,6 +1,6 @@
 "use client";
- import HeaderComponent from "./components/HeaderComponent";
-import LandingContent from "./components/StakeOperations";
+import LandingContent from "../components/StakeOperations";
+ import HeaderComponent from "../components/HeaderComponent";
  
 export default function Home() {
   

@@ -1,10 +1,10 @@
 import React from 'react';
-import useWalletInfo from '../hooks/useWalletInfo';
 import Image from 'next/image';
-import WalletNotConnected from "../public/step-disconnected.svg";
-import StepArrow from "../public/stake-arrow.svg";
+import WalletNotConnected from "../app/public/step-disconnected.svg";
+import StepArrow from "../app/public/stake-arrow.svg";
 import CustomIcon from './CustomIcon';
 import StakingOperationTabs from './StakingOperationTabs';
+import useWalletInfo from '@/app/hooks/useWalletInfo';
 
 const LandingContent = () => {
     const { publicKey } = useWalletInfo();

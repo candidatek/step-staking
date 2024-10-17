@@ -2,7 +2,7 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import React from 'react';
 import { WalletButton } from './WalletButton';
 import Image from 'next/image';
-import StepLogo from '../public/step-logo.svg';
+import StepLogo from '../app/public/step-logo.svg';
 
 const HeaderComponent = () => {
     return (
