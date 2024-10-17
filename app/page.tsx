@@ -1,6 +1,6 @@
 "use client";
-import LandingContent from "../components/StakeOperations";
- import HeaderComponent from "../components/HeaderComponent";
+import LandingScreen from "../components/StakeWrapper";
+ import Navbar from "../components/Navbar";
 import { useWalletConnectNotify } from "./hooks/useWalletInfo";
  
 export default function Home() {
@@ -8,8 +8,8 @@ export default function Home() {
   
   return (
     <main className="min-h-screen bg-black">
-      <HeaderComponent />
-      <LandingContent />
+      <Navbar />
+      <LandingScreen />
     </main>
   );
 }

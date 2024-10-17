@@ -4,7 +4,7 @@ import { WalletButton } from './WalletButton';
 import Image from 'next/image';
 import StepLogo from '../app/public/step-logo.svg';
 
-const HeaderComponent = () => {
+const Navbar = () => {
     return (
         <div className='flex justify-between px-[2vw] pt-[1.5vh] h-[7vh]'>
             <div>
@@ -19,4 +19,4 @@ const HeaderComponent = () => {
     );
 }
 
-export default HeaderComponent;
+export default Navbar;

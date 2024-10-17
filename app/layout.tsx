@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import AppWalletProvider from "./context/AppWalletProvider";
-import { Plus_Jakarta_Sans } from '@next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Toaster } from "sonner";
 
-
-// const geistSans = localFont({
-//   src: "./fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "./fonts/GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -37,6 +27,17 @@ export default function RootLayout({
       >
         <AppWalletProvider>
           {children}
+          <Toaster
+              position="bottom-left"
+              toastOptions={{
+                unstyled: true,
+                classNames: {
+                  toast: 'flex items-center   bg-green rounded-sm p-3  bg-card',
+                  title: 'font-semibold pr-4',
+                  description: 'text-sm ',
+                  icon: 'flex items-center justify-center size-10',
+                },
+              }} />
         </AppWalletProvider>
       </body>
     </html>

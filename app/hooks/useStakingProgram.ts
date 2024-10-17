@@ -3,9 +3,10 @@ import { AnchorProvider } from '@coral-xyz/anchor';
 import { AnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { STEP_PROGRAM_ID } from '../utils/constants';
 import { StepStakingIDL, StepStakingJSON } from '../utils/idl';
+import { getConnection } from '../utils/utils';
 
 export const useStakingProgram = () => {
-    const { connection } = useConnection();
+    const connection = getConnection();
     const wallet = useWallet();
 
     const provider = new AnchorProvider(

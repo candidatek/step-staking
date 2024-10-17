@@ -19,8 +19,8 @@ export const useStepAndXStepBalances = () => {
             return { stepTokenBalance, xStepTokenBalance };
         },
         enabled: !!publicKey && connected,
-        staleTime: 1000 * 60 * 5, // Data stays fresh for 5 minutes
-        refetchInterval: 1000 * 60 * 1, // Refetch every 1 minute
+        staleTime: 1000 * 60 * 5, 
+        refetchInterval: 1000 * 60 * 1,  
         refetchIntervalInBackground: true,
     });
 };
