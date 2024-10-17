@@ -7,8 +7,18 @@ export const getConnection = (): Connection => {
     return connection;
 }
 
+export const handleDecimalInput = (
+    value: string,
+    setInput: (value: string) => void
+): void => {
+    // Allow only numbers and a single decimal point
+    if (/^\d*\.?\d*$/.test(value)) {
+        setInput(value);
+    }
+}
+
 export const formatAmount = (amount: number, decimals?: number) => {
-    if(!amount || amount === 0) {
+    if (!amount || amount === 0) {
         return 0;
     }
     return amount.toFixed(decimals ?? 2);
@@ -29,7 +39,7 @@ export const fetchMintBalance = async (publicKey: PublicKey, tokenMintAddress: P
             const amount = tokenAccountInfo.tokenAmount.uiAmount;
             return amount;
         } else {
-            return 0; 
+            return 0;
         }
     } catch (err) {
         console.log(err);

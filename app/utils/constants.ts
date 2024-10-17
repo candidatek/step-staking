@@ -6,3 +6,6 @@ export const SOLANA_RPC_URL = 'https://mainnet.helius-rpc.com/?api-key=097b6306-
 export const STEP_PROGRAM_ID = new PublicKey(
     'Stk5NCWomVN3itaFjLu382u9ibb5jMSHEsh6CuhaGjB'
   );
+
+export const STEP_MINT_DECIMAL = 9;
+export const XSTEP_MINT_DECIMAL = 9;
