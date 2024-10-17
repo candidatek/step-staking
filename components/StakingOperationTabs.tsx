@@ -1,12 +1,12 @@
 import React, { Dispatch, FC, SetStateAction, useMemo, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { formatAmount } from '../utils/utils';
+import { formatAmount } from '../app/utils/utils';
 import { Button } from "@/components/ui/button"
-import StepLogo from "../public/step.png"
-import xStepLogo from "../public/xstep.svg"
+import StepLogo from "../app/public/step.png"
+import xStepLogo from "../app/public/xstep.svg"
 import Image from 'next/image';
 import { ArrowDown, ArrowDownToLine, ArrowUpFromLine } from 'lucide-react';
-import { useStepAndXStepBalances } from '../hooks/useTokens';
+import { useStepAndXStepBalances } from '../app/hooks/useTokens';
 
 
 const StakingOperationTabs = () => {
@@ -49,8 +49,8 @@ const StakingOperationTabs = () => {
 }
 
 const PerformOperationButton: FC<{ activeTab: string, userInput: number }> = ({ activeTab, userInput }) => {
-    const {data} = useStepAndXStepBalances();
-    const {stepTokenBalance, xStepTokenBalance} = data??{stepTokenBalance:0, xStepTokenBalance:0};
+    const { data } = useStepAndXStepBalances();
+    const { stepTokenBalance, xStepTokenBalance } = data ?? { stepTokenBalance: 0, xStepTokenBalance: 0 };
 
     const maxStakeBalance = useMemo(() => {
         if (activeTab === 'stake') {
@@ -64,7 +64,7 @@ const PerformOperationButton: FC<{ activeTab: string, userInput: number }> = ({ 
         if (activeTab === 'stake') {
             if (userInput > stepTokenBalance) return 'Insufficient STEP balance'
             if (userInput === 0) return 'Enter an amount'
-            return 'Stake ' 
+            return 'Stake '
         }
         else {
             if (userInput > xStepTokenBalance) return 'Insufficient xSTEP balance'
@@ -106,8 +106,8 @@ const StakeStepTab: FC<{
     setUserInput: Dispatch<SetStateAction<number>>
 }> = ({ userInput, setUserInput }): JSX.Element => {
     // const { stepTokenBalance, xStepTokenBalance } = useTokenBalance();
-    const {data} = useStepAndXStepBalances();
-    const {stepTokenBalance, xStepTokenBalance} = data??{stepTokenBalance:0, xStepTokenBalance:0};
+    const { data } = useStepAndXStepBalances();
+    const { stepTokenBalance, xStepTokenBalance } = data ?? { stepTokenBalance: 0, xStepTokenBalance: 0 };
 
     return (
         <div className="h-full">

@@ -9,6 +9,7 @@ import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from "sonner";
 
 // import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
  
@@ -39,6 +40,7 @@ export default function AppWalletProvider({
           <WalletModalProvider >
               <QueryClientProvider client={queryClient}>
               {children}
+              <Toaster />
               </QueryClientProvider>
              </WalletModalProvider>
         </WalletProvider>
