@@ -5,7 +5,6 @@ import StepLogo from "../app/public/step.png";
 import { formatToDollar, handleDecimalInput } from "@/app/utils/utils";
 import { useStepTokenPrice } from "@/app/hooks/useStepTokenPrice";
 import { useStepPerXStep } from "@/app/hooks/useStepPerXStep";
-import { Tab } from "./StakingTabs";
 
 interface InputWrapperProps {
   token: "STEP" | "xSTEP";
@@ -22,8 +21,7 @@ enum Token {
 export const InputWrapper: FC<InputWrapperProps> = ({
   token,
   userInput,
-  setUserInput,
-  activeTab
+  setUserInput
 }) => {
   const logo = token === Token.STEP ? StepLogo : xStepLogo;
   const logoWidth = token === Token.STEP ? 32 : 28;

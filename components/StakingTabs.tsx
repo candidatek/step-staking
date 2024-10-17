@@ -15,7 +15,7 @@ import { DisplayTokenBalance } from "./DisplayBalance";
 import { InputWrapper } from "./InputWrapper";
 import { OutputWrapper } from "./OutputWrapper";
 
-export enum Tab {
+export enum TokenActions {
   Stake = "stake",
   Unstake = "unstake",
 }
@@ -25,7 +25,7 @@ const TAB_BASE_CLASSES =
   "w-[150px] h-11 duration-500 font-extrabold !bg-black-2 !rounded-t-lg !rounded-b-none hover:!text-green";
 
 const StakingTabs = () => {
-  const [activeTab, setActiveTab] = useState<Tab>(Tab.Stake);
+  const [activeTab, setActiveTab] = useState<TokenActions>(TokenActions.Stake);
   const [userInput, setUserInput] = useState<string>("");
 
   return (
@@ -36,25 +36,25 @@ const StakingTabs = () => {
       >
         <TabsList className="!p-0 !m-0 h-11 bg-black">
           <TabsTrigger
-            onClick={() => setActiveTab(Tab.Stake)}
+            onClick={() => setActiveTab(TokenActions.Stake)}
             className={`${TAB_BASE_CLASSES} ${
-              activeTab === Tab.Stake
+              activeTab === TokenActions.Stake
                 ? ACTIVE_TAB_CLASSES
                 : INACTIVE_TAB_CLASSES
             }`}
-            value={Tab.Stake}
+            value={TokenActions.Stake}
           >
             <ArrowDownToLine size={16} className="mr-1" />
             Stake
           </TabsTrigger>
           <TabsTrigger
-            onClick={() => setActiveTab(Tab.Unstake)}
+            onClick={() => setActiveTab(TokenActions.Unstake)}
             className={`${TAB_BASE_CLASSES} ${
-              activeTab === Tab.Unstake
+              activeTab === TokenActions.Unstake
                 ? ACTIVE_TAB_CLASSES
                 : INACTIVE_TAB_CLASSES
             }`}
-            value={Tab.Unstake}
+            value={TokenActions.Unstake}
           >
             <ArrowUpFromLine size={16} className="mr-1" />
             Unstake
@@ -62,13 +62,13 @@ const StakingTabs = () => {
         </TabsList>
         <TabsContent
           className="text-white max-h-[300px] rounded-lg !rounded-ss-none bg-black-1 !mt-0 p-5"
-          value={Tab.Stake}
+          value={TokenActions.Stake}
         >
           <StakeTab userInput={userInput} setUserInput={setUserInput} />
         </TabsContent>
         <TabsContent
           className="text-white max-h-[300px] bg-black-1 !mt-0 p-5 !rounded-ss-none rounded-lg"
-          value={Tab.Unstake}
+          value={TokenActions.Unstake}
         >
           <UnstakeTab userInput={userInput} setUserInput={setUserInput} />
         </TabsContent>
@@ -98,7 +98,7 @@ const UnstakeTab: FC<{
       />
       <InputWrapper
         token="xSTEP"
-        activeTab={Tab.Unstake}
+        activeTab={TokenActions.Unstake}
         userInput={userInput}
         setUserInput={setUserInput}
       />
@@ -135,7 +135,7 @@ const StakeTab: FC<{
         setUserInput={setUserInput}
       />
       <InputWrapper
-        activeTab={Tab.Stake}
+        activeTab={TokenActions.Stake}
         token="STEP"
         userInput={userInput}
         setUserInput={setUserInput}
