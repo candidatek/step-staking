@@ -10,7 +10,15 @@ const useWalletInfo = () => {
   const publicKey = useMemo(() => wallet?.adapter?.publicKey ?? null, [wallet?.adapter?.publicKey]);
   const isConnected = useMemo(() => !!publicKey, [publicKey]);
 
+
+  return { publicKey, isConnected };
+};
+
+export const useWalletConnectNotify = () => {
+  const { publicKey } = useWalletInfo();
+
   useEffect(() => {
+
     toast.dismiss();
     if (publicKey) {
       localStorage.setItem('publicKey', publicKey.toBase58());
@@ -21,8 +29,11 @@ const useWalletInfo = () => {
       toast.message(`Wallet disconnected ${prevPublicKey && `from ` + formatPublicKey(prevPublicKey)} `);
       localStorage.removeItem('publicKey');
     }
+
   }, [publicKey]);
-  return { publicKey, isConnected };
-};
+  return null;
+}
+
+
 
 export default useWalletInfo;
