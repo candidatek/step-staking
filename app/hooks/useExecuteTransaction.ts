@@ -6,7 +6,11 @@ import {
   XSTEP_MINT_DECIMAL,
 } from "../utils/constants";
 import { useStakingProgram } from "./useStakingProgram";
-import { getAssociatedTokenAddress, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import {
+  getAssociatedTokenAddress,
+  TOKEN_PROGRAM_ID,
+  createAssociatedTokenAccountInstruction,
+} from "@solana/spl-token";
 import useWalletInfo from "./useWalletInfo";
 import {
   PublicKey,
@@ -18,6 +22,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useState } from "react";
 import { getConnection } from "../utils/utils";
 import { toast } from "sonner";
+import { useTransactionStatus } from "./useTransactionStatus";
 
 type useExecuteTransactionReturn = {
   initiateStakeTransaction: (amount: number) => Promise<void>;
@@ -33,24 +38,27 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
   const program = useStakingProgram();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const { checkStatus } = useTransactionStatus();
+
 
   const createTransaction = async (
-    ix: TransactionInstruction,
+    ix: (TransactionInstruction | undefined)[],
     feePayer: PublicKey
   ): Promise<Transaction> => {
-    const tx = new Transaction().add(ix);
+    const tx = new Transaction();
+    ix.forEach((instruction) => instruction && tx.add(instruction));
     tx.feePayer = feePayer;
     const { blockhash } = await connection.getLatestBlockhash();
     tx.recentBlockhash = blockhash;
     return tx;
   };
 
-  const initiateStakeTransaction = async (amount: number) => {
+  const initiateStakeTransaction = async (sendAmount: number) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      if (!publicKey || !amount || amount <= 0) {
+      if (!publicKey || !sendAmount || sendAmount <= 0) {
         throw new Error("Wallet is not connected");
       }
       const stepTokenAta = await getAssociatedTokenAddress(
@@ -61,6 +69,16 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
         XSTEP_MINT,
         publicKey
       );
+      const xStepTokenAtaValue = await connection.getAccountInfo(xStepTokenAta);
+      let createAtaIx;
+      if (!xStepTokenAtaValue) {
+        createAtaIx = await createAssociatedTokenAccountInstruction(
+          publicKey,
+          xStepTokenAta,
+          publicKey,
+          XSTEP_MINT
+        );
+      }
       const [stepTokenVault, stepBump] = PublicKey.findProgramAddressSync(
         [STEP_MINT.toBuffer()],
         STEP_PROGRAM_ID
@@ -68,7 +86,7 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       // Get associated token addresses for staking
 
       const ix = await program.methods
-        .stake(stepBump, new BN(amount * 10 ** STEP_MINT_DECIMAL))
+        .stake(stepBump, new BN(sendAmount * 10 ** STEP_MINT_DECIMAL))
         .accounts({
           tokenMint: STEP_MINT,
           xTokenMint: XSTEP_MINT,
@@ -80,14 +98,19 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
         })
         .instruction();
 
-      const tx = await createTransaction(ix, publicKey);
+      const tx = await createTransaction([createAtaIx, ix], publicKey);
       toast.message("Approve Transaction from Wallet", { duration: 20000 });
-      const sig = await sendTransaction(tx, connection);
-      toast.dismiss();
-      toast.message("Transaction Sent", { duration: 20000 });
-      console.log("Transaction sent successfully");
+      const signature = await sendTransaction(tx, connection);
+      checkStatus({ signature, sendAmount, action: 'stake' });
       setIsLoading(false);
-    } catch (err) {
+    } catch (err: Error | unknown) {
+      toast.dismiss();
+      toast.error("Failed to send transaction ", {
+        description: err?.toString(),
+        duration: 20000,
+        style: { backgroundColor: "#FF8A8A" },
+      });
+
       setIsLoading(false);
       console.error("Error creating stake transaction:", err);
     } finally {
@@ -102,10 +125,20 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       if (!publicKey) {
         throw new Error("Wallet is not connected");
       }
-      const stetTokenAta = await getAssociatedTokenAddress(
+      const stepTokenAta = await getAssociatedTokenAddress(
         STEP_MINT,
         publicKey!
       );
+      const xStepTokenAtaValue = await connection.getAccountInfo(stepTokenAta);
+      let createAtaIx;
+      if (!xStepTokenAtaValue) {
+        createAtaIx = await createAssociatedTokenAccountInstruction(
+          publicKey,
+          stepTokenAta,
+          publicKey,
+          STEP_MINT
+        );
+      }
 
       const xTokenFrom = await getAssociatedTokenAddress(
         XSTEP_MINT,
@@ -125,17 +158,23 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
           xTokenFrom: xTokenFrom,
           xTokenFromAuthority: publicKey!,
           tokenVault: vaultPubkey,
-          tokenTo: stetTokenAta,
+          tokenTo: stepTokenAta,
           tokenProgram: TOKEN_PROGRAM_ID,
         })
         .instruction();
 
       // Construct transaction and add instruction
-      const tx = await createTransaction(ix, publicKey);
+      const tx = await createTransaction([createAtaIx, ix], publicKey);
       await sendTransaction(tx, connection);
       console.log("Transaction sent successfully");
       setIsLoading(false);
-    } catch (err) {
+    } catch (err: Error | unknown) {
+      toast.dismiss();
+      toast.error("Failed to send transaction ", {
+        description: err?.toString(),
+        duration: 20000,
+        style: { backgroundColor: "#FF8A8A" },
+      });
       setIsLoading(false);
       console.error("Error creating stake transaction:", err);
       //   setError(err as Error);

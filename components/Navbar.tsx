@@ -1,4 +1,3 @@
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import React from 'react';
 import { WalletButton } from './WalletButton';
 import Image from 'next/image';
@@ -11,7 +10,6 @@ const Navbar = () => {
                 <Image src={StepLogo} width={110} height={40} alt="Step Stake logo" />
             </div>
             <div>
-                <WalletMultiButton style={{}} />
                 <WalletButton />
             </div>
         </div>
