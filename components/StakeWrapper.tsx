@@ -3,37 +3,35 @@ import Image from 'next/image';
 import WalletNotConnected from "../app/public/step-disconnected.svg";
 import StepArrow from "../app/public/stake-arrow.svg";
 import CustomIcon from './CustomIcon';
-import StakingOperationTabs from './StakingOperationTabs';
+import StakingTabs from './StakingTabs';
 import useWalletInfo from '@/app/hooks/useWalletInfo';
 
-const LandingContent = () => {
+const LandingScreen = () => {
     const { publicKey } = useWalletInfo();
 
     return (
         <div className='h-[90vh] flex items-center justify-center'>
-            {publicKey ? <StakeOperations /> :
+            {publicKey ? <StakeWrapper /> :
                 <WalletDisconnected />
             }
         </div>
     );
 }
 
-
-const StakeOperations = () => <div className='flex flex-col'>
+const StakeWrapper = () =>  <div className='flex flex-col'>
     <StakeHeader />
     <StakingInfoCard />
-    <StakingOperationTabs />
+    <StakingTabs />
 </div>
 
-const StakeHeader = () =>
-    <>  <div className='flex justify-center items-center gap-4 h-10'>
-        <Image src={StepArrow} width={32} height={32} alt="Step" />
-        <div className='text-white text-lg font-bold '>Stake STEP   </div>
+const StakeHeader = () => <>  <div className='flex justify-center items-center gap-4 h-10'>
+    <Image src={StepArrow} width={32} height={32} alt="Step" />
+    <div className='text-white text-lg font-bold '>Stake STEP   </div>
+</div>
+    <div className='text-liteGrey text-sm  flex items-center justify-center mt-6'>
+        Stake STEP to receive xSTEP
     </div>
-        <div className='text-liteGrey text-sm  flex items-center justify-center mt-6'>
-            Stake STEP to receive xSTEP
-        </div>
-    </>
+</>
 
 
 
@@ -71,4 +69,4 @@ const WalletDisconnected = () => {
     );
 };
 
-export default LandingContent;
+export default LandingScreen;

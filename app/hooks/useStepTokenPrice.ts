@@ -15,8 +15,8 @@ export const useStepTokenPrice = () => {
   return useQuery({
     queryKey: ['stepPrice'],
     queryFn: fetchStepTokenPrice,
-    staleTime: 1000 * 60 * 5, // Data stays fresh for 5 minutes
-    refetchInterval: 1000 * 60, // Refetch every 1 minute
+    staleTime: 1000 * 60 * 5, 
+    refetchInterval: 1000 * 60,
     refetchIntervalInBackground: true,
   });
 };

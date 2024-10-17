@@ -10,24 +10,31 @@ export const useStepPerXStep = () => {
   return useQuery({
     queryKey: ['emitPrice'],
     queryFn: async () => {
-      const [vaultPubkey] = await PublicKey.findProgramAddress(
-        [STEP_MINT.toBuffer()],
-        STEP_PROGRAM_ID
-      );
-      const res = await program.simulate.emitPrice({
-        accounts: {
-          tokenMint: STEP_MINT,
-          xTokenMint: XSTEP_MINT,
-          tokenVault: vaultPubkey,
-        },
-      });
-
-      const price = res.events[0].data as {
-        stepPerXstep: string;
-        stepPerXstepE9: BN;
-      };
-
-      return price;
+      try {
+        const [vaultPubkey] = await PublicKey.findProgramAddress(
+          [STEP_MINT.toBuffer()],
+          STEP_PROGRAM_ID
+        );
+        const res = await program.simulate.emitPrice({
+          accounts: {
+            tokenMint: STEP_MINT,
+            xTokenMint: XSTEP_MINT,
+            tokenVault: vaultPubkey,
+          },
+        });
+  
+        const price = res.events[0].data as {
+          stepPerXstep: string;
+          stepPerXstepE9: BN;
+        };
+  
+        return price;
+      }
+      catch (error) {
+        console.error(error);
+        return { stepPerXstep: '0', stepPerXstepE9: new BN(0) };
+      }
+     
     },
     staleTime: 1000 * 60 * 5, // Data stays fresh for 5 minutes
     refetchInterval: 1000 * 60, // Refetch every 1 minute
