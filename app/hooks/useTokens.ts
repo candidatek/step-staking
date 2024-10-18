@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { fetchMintBalance } from '../utils/utils';
-import { STEP_MINT, XSTEP_MINT } from '../utils/constants';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { STEP_MINT, XSTEP_MINT } from '../../lib/constants';
+import { fetchMintBalance } from '@/lib/utils';
 
 export const useStepAndXStepBalances = () => {
     const { publicKey, connected } = useWallet();
+    const {connection} = useConnection();
 
     return useQuery({
         queryKey: ['tokenBalances', publicKey],
@@ -12,8 +13,8 @@ export const useStepAndXStepBalances = () => {
             if (!publicKey) throw new Error('Public key is required');
 
             const [stepTokenBalance, xStepTokenBalance] = await Promise.all([
-                fetchMintBalance(publicKey, STEP_MINT),
-                fetchMintBalance(publicKey, XSTEP_MINT),
+                fetchMintBalance(publicKey, STEP_MINT, connection),
+                fetchMintBalance(publicKey, XSTEP_MINT, connection),
             ]);
 
             return { stepTokenBalance, xStepTokenBalance };

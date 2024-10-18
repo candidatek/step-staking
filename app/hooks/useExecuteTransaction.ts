@@ -4,7 +4,7 @@ import {
   STEP_PROGRAM_ID,
   XSTEP_MINT,
   XSTEP_MINT_DECIMAL,
-} from "../utils/constants";
+} from "../../lib/constants";
 import { useStakingProgram } from "./useStakingProgram";
 import {
   getAssociatedTokenAddress,
@@ -18,9 +18,8 @@ import {
   TransactionInstruction,
 } from "@solana/web3.js";
 import { BN } from "@coral-xyz/anchor";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useState } from "react";
-import { getConnection } from "../utils/utils";
 import { toast } from "sonner";
 import { useTransactionStatus } from "./useTransactionStatus";
 
@@ -28,18 +27,15 @@ type useExecuteTransactionReturn = {
   initiateStakeTransaction: (amount: number) => Promise<void>;
   initiateUnstakeTransaction: (amount: number) => Promise<void>;
   isLoading: boolean;
-  error: Error | null;
 };
 
 export const useExecuteTransaction = (): useExecuteTransactionReturn => {
   const { publicKey } = useWalletInfo();
   const { sendTransaction } = useWallet();
-  const connection = getConnection();
+  const { connection } = useConnection();
   const program = useStakingProgram();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
   const { checkStatus } = useTransactionStatus();
-
 
   const createTransaction = async (
     ix: (TransactionInstruction | undefined)[],
@@ -55,7 +51,6 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
 
   const initiateStakeTransaction = async (sendAmount: number) => {
     setIsLoading(true);
-    setError(null);
 
     try {
       if (!publicKey || !sendAmount || sendAmount <= 0) {
@@ -99,9 +94,10 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
         .instruction();
 
       const tx = await createTransaction([createAtaIx, ix], publicKey);
+      toast.dismiss();
       toast.message("Approve Transaction from Wallet", { duration: 20000 });
       const signature = await sendTransaction(tx, connection);
-      checkStatus({ signature, sendAmount, action: 'stake' });
+      checkStatus({ signature, sendAmount, action: "stake" });
       setIsLoading(false);
     } catch (err: Error | unknown) {
       toast.dismiss();
@@ -117,9 +113,8 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       setIsLoading(false);
     }
   };
-  const initiateUnstakeTransaction = async (amount: number) => {
+  const initiateUnstakeTransaction = async (sendAmount: number) => {
     setIsLoading(true);
-    setError(null);
 
     try {
       if (!publicKey) {
@@ -151,7 +146,7 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       );
 
       const ix = await program.methods
-        .unstake(vaultBump, new BN(amount * 10 ** XSTEP_MINT_DECIMAL))
+        .unstake(vaultBump, new BN(sendAmount * 10 ** XSTEP_MINT_DECIMAL))
         .accounts({
           tokenMint: STEP_MINT,
           xTokenMint: XSTEP_MINT,
@@ -165,7 +160,11 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
 
       // Construct transaction and add instruction
       const tx = await createTransaction([createAtaIx, ix], publicKey);
-      await sendTransaction(tx, connection);
+      toast.dismiss();
+      toast.message("Approve Transaction from Wallet", { duration: 20000 });
+      const signature = await sendTransaction(tx, connection);
+      checkStatus({ signature, sendAmount, action: "unstake" });
+
       console.log("Transaction sent successfully");
       setIsLoading(false);
     } catch (err: Error | unknown) {
@@ -177,7 +176,6 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       });
       setIsLoading(false);
       console.error("Error creating stake transaction:", err);
-      //   setError(err as Error);
     } finally {
       setIsLoading(false);
     }
@@ -186,7 +184,6 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
   return {
     initiateStakeTransaction,
     isLoading,
-    error,
     initiateUnstakeTransaction,
   };
 };

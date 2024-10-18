@@ -1,12 +1,12 @@
 import { Program } from '@coral-xyz/anchor';
 import { AnchorProvider } from '@coral-xyz/anchor';
-import { AnchorWallet, useWallet } from '@solana/wallet-adapter-react';
-import { STEP_PROGRAM_ID } from '../utils/constants';
-import { StepStakingIDL, StepStakingJSON } from '../utils/idl';
-import { getConnection } from '../utils/utils';
+import { AnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { STEP_PROGRAM_ID } from '../../lib/constants';
+import { StepStakingIDL, StepStakingJSON } from '../../lib/idl';
+
 
 export const useStakingProgram = () => {
-    const connection = getConnection();
+    const {connection} = useConnection();
     const wallet = useWallet();
 
     const provider = new AnchorProvider(

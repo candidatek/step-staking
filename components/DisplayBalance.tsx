@@ -1,6 +1,6 @@
-import { formatAmount } from "@/app/utils/utils";
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
+import { formatAmount } from "@/lib/utils";
 
 interface DisplayTokenBalanceProps {
   label: string;

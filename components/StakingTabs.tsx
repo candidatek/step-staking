@@ -32,7 +32,7 @@ const StakingTabs = () => {
     <>
       <Tabs
         defaultValue={activeTab}
-        className="w-[40vw] max-w-[450px] min-w-[400px] mt-4"
+        className="w-[450px] sm:w-[96vw] mt-4"
       >
         <TabsList className="!p-0 !m-0 h-11 bg-black">
           <TabsTrigger
@@ -206,7 +206,7 @@ const PerformOperationButton: FC<{ activeTab: string; userInput: string }> = ({
     ]);
   
     return (
-      <div className="w-[40vw] max-w-[450px] min-w-[400px] bg-none mt-4">
+      <div className="sm:w-[96vw] w-[450px]  bg-none mt-4">
         <Button
           onClick={handleButtonClick}
           disabled={

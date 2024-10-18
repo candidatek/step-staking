@@ -2,9 +2,9 @@ import { Dispatch, FC, SetStateAction, useMemo } from "react";
 import Image from "next/image";
 import xStepLogo from "../app/public/xstep.svg";
 import StepLogo from "../app/public/step.png";
-import { formatToDollar, handleDecimalInput } from "@/app/utils/utils";
 import { useStepTokenPrice } from "@/app/hooks/useStepTokenPrice";
 import { useStepPerXStep } from "@/app/hooks/useStepPerXStep";
+import { formatToDollar, handleDecimalInput } from "@/lib/utils";
 
 interface InputWrapperProps {
   token: "STEP" | "xSTEP";
@@ -63,7 +63,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
       />
       <div className="absolute ml-[275px] mt-8 text-sm text-grey w-[120px] h-8 text-right">
         {stepPriceUSD && userInput && (
-          <div>{`${stepPriceInUSD && formatToDollar(stepPriceInUSD)}`}</div>
+          <div>{`$${stepPriceInUSD && formatToDollar(stepPriceInUSD)}`}</div>
         )}
       </div>
     </div>
