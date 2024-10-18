@@ -8,7 +8,7 @@ import {
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SOLANA_RPC_URL } from "../utils/constants";
+import { SOLANA_RPC_URL } from "../../lib/constants";
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 export default function AppWalletProvider({

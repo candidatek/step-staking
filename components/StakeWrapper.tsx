@@ -18,17 +18,17 @@ const LandingScreen = () => {
     );
 }
 
-const StakeWrapper = () =>  <div className='flex flex-col'>
+const StakeWrapper = () =>  <div className='flex flex-col items-center'>
     <StakeHeader />
     <StakingInfoCard />
     <StakingTabs />
 </div>
 
-const StakeHeader = () => <>  <div className='flex justify-center items-center gap-4 h-10'>
+const StakeHeader = () => <>  <div className='flex justify-center items-center gap-4 h-10 '>
     <Image src={StepArrow} width={32} height={32} alt="Step" />
     <div className='text-white text-lg font-bold '>Stake STEP   </div>
 </div>
-    <div className='text-liteGrey text-sm  flex items-center justify-center mt-6'>
+    <div className='text-liteGrey text-sm  flex items-center justify-center mt-6 sm:mt-4'>
         Stake STEP to receive xSTEP
     </div>
 </>
@@ -36,8 +36,8 @@ const StakeHeader = () => <>  <div className='flex justify-center items-center g
 
 
 const StakingInfoCard = () =>
-    <div className='text-white  rounded-lg text-sm p-[30px] bg-black-1 flex flex-col  
-    max-w-[450px] min-w-[400px] w-[40vw] mt-10'>
+    <div className='text-white  rounded-lg text-sm p-[30px] sm:p-5 bg-black-1 flex flex-col  
+    sm:w-[96vw] w-[450px] mt-10 sm:mt-5'>
         <div className='flex justify-between w-full'>
             <div className='flex items-center gap-4  text-sm font-bold'>
                 <CustomIcon />
@@ -48,7 +48,7 @@ const StakingInfoCard = () =>
             </div>
         </div>
 
-        <div className='mt-8  text-sm  font-bold'>
+        <div className='mt-8 sm:mt-4 text-sm  font-bold'>
             “Where is my staking reward?”
         </div>
         <div className='mt-2.5 text-sm text-liteGrey leading-5 '>
