@@ -2,13 +2,14 @@ import { FC, useMemo } from "react";
 import Image from "next/image";
 import xStepLogo from "../app/public/xstep.svg";
 import StepLogo from "../app/public/step.png";
-import { useStepPerXStep } from "@/app/hooks/useStepPerXStep";
+import { useLPTokenBalance } from "@/app/hooks/useLPTokenBalance";
+import { formatToDollar } from "@/lib/utils";
 
 export const OutputWrapper: FC<{ token: "STEP" | "xSTEP", userInput: string }> = ({ token, userInput }) => {
   const logo = token === "STEP" ? StepLogo : xStepLogo;
   const logoWidth = token === "STEP" ? 30 : 30;
   const logoMargin = token === "STEP" ? "mr-1.5 ml-2" : "mr-2 ml-2";
-  const {data} = useStepPerXStep();
+  const {data} = useLPTokenBalance();
   const {stepPerXstep} = data??{stepPerXstep:0};
   const receiveLPTokens = useMemo(() => {
     if(token === "STEP" ){
@@ -33,7 +34,7 @@ export const OutputWrapper: FC<{ token: "STEP" | "xSTEP", userInput: string }> =
           <div className="text-white text-sm font-bold">{token}</div>
         </div>
         <div className="rounded-sm text-md font-bold !font-mono  placeholder:text-liteGrey text-right">
-          {receiveLPTokens ? receiveLPTokens.toFixed(2) : '0.00'}
+          {receiveLPTokens ? formatToDollar(receiveLPTokens) : '0.00'}
         </div>
       </div>
       <div className="w-full p-2 bg-black-1 rounded-lg  z-[100] h-[64px] flex justify-between border border-liteGrey mt-[-50px] opacity-15" />

@@ -9,7 +9,7 @@ import React, {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowDownToLine, ArrowUpFromLine } from "lucide-react";
-import { useStepAndXStepBalances } from "../app/hooks/useTokens";
+import { useStepAndXStepBalances } from "../app/hooks/useBalances";
 import { useExecuteTransaction } from "../app/hooks/useExecuteTransaction";
 import { DisplayTokenBalance } from "./DisplayBalance";
 import { InputWrapper } from "./InputWrapper";
@@ -38,8 +38,8 @@ const StakingTabs = () => {
           <TabsTrigger
             onClick={() => setActiveTab(TokenActions.Stake)}
             className={`${TAB_BASE_CLASSES} ${activeTab === TokenActions.Stake
-                ? ACTIVE_TAB_CLASSES
-                : INACTIVE_TAB_CLASSES
+              ? ACTIVE_TAB_CLASSES
+              : INACTIVE_TAB_CLASSES
               }`}
             value={TokenActions.Stake}
           >
@@ -49,8 +49,8 @@ const StakingTabs = () => {
           <TabsTrigger
             onClick={() => setActiveTab(TokenActions.Unstake)}
             className={`${TAB_BASE_CLASSES} ${activeTab === TokenActions.Unstake
-                ? ACTIVE_TAB_CLASSES
-                : INACTIVE_TAB_CLASSES
+              ? ACTIVE_TAB_CLASSES
+              : INACTIVE_TAB_CLASSES
               }`}
             value={TokenActions.Unstake}
           >
@@ -191,19 +191,19 @@ const PerformOperationButton: FC<{ activeTab: string; userInput: string }> = ({
     return `w-full h-12 mb-10 duration-500 font-bold text-md border 
       ${isDisabled
         ? 'bg-black-1 border-gray-500 cursor-not-allowed text-gray-300 !pointer-events-auto'
-        : 'bg-black-1 border-green text-green hover:bg-green !cursor-auto !pointer-events-auto'}`;
+        : 'bg-black-1 border-green text-green hover:bg-green !cursor-pointer !pointer-events-auto'}`;
   }, [isDisabled]);
 
 
   const displayStr: string = useMemo(() => {
     if (isLoading) return "Loading...";
+    if (userInputAmt === 0 || !userInput) return "Enter an amount";
+
     if (activeTab === "stake") {
       if (userInputAmt > stepTokenBalance) return "Insufficient STEP balance";
-      if (userInputAmt === 0 || !userInput) return "Enter an amount";
       return "Stake ";
     } else {
       if (userInputAmt > xStepTokenBalance) return "Insufficient xSTEP balance";
-      if (userInputAmt === 0) return "Enter an amount";
       return "Unstake ";
     }
   }, [

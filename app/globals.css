@@ -83,3 +83,21 @@ body {
     @apply bg-background text-foreground;
   }
 }
+html {
+  scrollbar-color: #3b3b3b #131313; /* For Firefox */
+  scrollbar-width: thin; /* Thin scrollbar for Firefox */
+}
+
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Light grey track */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #7d7d7d; /* Darker grey scrollbar */
+  border-radius: 6px;
+  border: 3px solid #f0f0f0; /* Light grey border */
+}

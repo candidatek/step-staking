@@ -97,20 +97,16 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       toast.dismiss();
       toast.message("Approve Transaction from Wallet", { duration: 20000 });
       const signature = await sendTransaction(tx, connection);
-      checkStatus({ signature, sendAmount, action: "stake" });
-      setIsLoading(false);
+      checkStatus({ signature, sendAmount, action: "stake", setIsLoading });
     } catch (err: Error | unknown) {
       toast.dismiss();
+      setIsLoading(false);
       toast.error("Failed to send transaction ", {
         description: err?.toString(),
         duration: 20000,
-        style: { backgroundColor: "#FF8A8A !important"  },
+        style: { backgroundColor: "#FF8A8A !important" },
       });
-
-      setIsLoading(false);
       console.error("Error creating stake transaction:", err);
-    } finally {
-      setIsLoading(false);
     }
   };
   const initiateUnstakeTransaction = async (sendAmount: number) => {
@@ -163,10 +159,9 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       toast.dismiss();
       toast.message("Approve Transaction from Wallet", { duration: 20000 });
       const signature = await sendTransaction(tx, connection);
-      checkStatus({ signature, sendAmount, action: "unstake" });
+      checkStatus({ signature, sendAmount, action: "unstake", setIsLoading });
 
       console.log("Transaction sent successfully");
-      setIsLoading(false);
     } catch (err: Error | unknown) {
       toast.dismiss();
       toast.error("Failed to send transaction ", {
@@ -176,8 +171,6 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       });
       setIsLoading(false);
       console.error("Error creating stake transaction:", err);
-    } finally {
-      setIsLoading(false);
     }
   };
 

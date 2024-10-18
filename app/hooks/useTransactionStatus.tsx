@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { toast } from 'sonner';
 import { useConnection } from '@solana/wallet-adapter-react';
 import { type TransactionSignature } from '@solana/web3.js';
 import Image from 'next/image';
-import { useStepPerXStep } from './useStepPerXStep';
+import { useLPTokenBalance } from './useLPTokenBalance';
 import { useQueryClient } from '@tanstack/react-query'; // For query invalidation
 
 import StepLogo from '../public/step.png';
@@ -14,19 +14,20 @@ type TransactionDetails = {
   signature: TransactionSignature;
   sendAmount: number;
   action: 'stake' | 'unstake';
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 export const useTransactionStatus = () => {
   const { connection } = useConnection();
   const queryClient = useQueryClient(); // To invalidate queries
-  const { data: stepConversionRate } = useStepPerXStep();
+  const { data: stepConversionRate } = useLPTokenBalance();
   const [txDetails, setTxDetails] = useState<TransactionDetails | null>(null);
 
   useEffect(() => {
     const checkTransactionStatus = async () => {
       if (!txDetails) return;
 
-      const { signature, action, sendAmount } = txDetails;
+      const { signature, action, sendAmount, setIsLoading } = txDetails;
       try {
         const latestBlockhash = await connection.getLatestBlockhash();
         const res = await connection.confirmTransaction(
@@ -39,6 +40,7 @@ export const useTransactionStatus = () => {
         );
 
         if (!res.value.err) {
+          setIsLoading(false);
           const toastMessage =
             action === 'stake' ? 'You staked STEP' : 'You unstaked xSTEP';
 
@@ -82,11 +84,14 @@ export const useTransactionStatus = () => {
             queryKey: ['tokenBalances'],
           });
         } else {
+          setIsLoading(false);
           toast.error('Transaction error: ' + res.value.err.toString());
         }
       } catch (err) {
+        setIsLoading(false);
         toast.error('Failed to confirm transaction: ' + err);
       } finally {
+        setIsLoading(false);
         setTxDetails(null);
       }
     };

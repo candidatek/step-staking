@@ -3,7 +3,7 @@ import Image from "next/image";
 import xStepLogo from "../app/public/xstep.svg";
 import StepLogo from "../app/public/step.png";
 import { useStepTokenPrice } from "@/app/hooks/useStepTokenPrice";
-import { useStepPerXStep } from "@/app/hooks/useStepPerXStep";
+import { useLPTokenBalance } from "@/app/hooks/useLPTokenBalance";
 import { formatToDollar, handleDecimalInput } from "@/lib/utils";
 
 interface InputWrapperProps {
@@ -27,7 +27,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   const logoWidth = token === Token.STEP ? 30 : 30;
   const logoMargin = token === Token.STEP ? "mr-1.5" : "mr-2";
   const { data: stepPriceUSD } = useStepTokenPrice();
-  const {data: stepPerXStep} = useStepPerXStep();
+  const {data: stepPerXStep} = useLPTokenBalance();
   
   const stepPriceInUSD = useMemo(
     () => {
@@ -40,7 +40,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
     [userInput, stepPriceUSD]
   );
 
-  const {data} = useStepPerXStep();
+  const {data} = useLPTokenBalance();
   const {stepPerXstep} = data??{stepPerXstep:0};
 
   const receiveLPTokens = useMemo(() => {

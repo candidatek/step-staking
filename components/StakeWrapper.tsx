@@ -2,9 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import WalletNotConnected from "../app/public/step-disconnected.svg";
 import StepArrow from "../app/public/stake-arrow.svg";
-import CustomIcon from './CustomIcon';
 import StakingTabs from './StakingTabs';
 import useWalletInfo from '@/app/hooks/useWalletInfo';
+import XStepLogo from '../app/public/xstep.svg';
 
 const LandingScreen = () => {
     const { publicKey } = useWalletInfo();
@@ -40,7 +40,7 @@ const StakingInfoCard = () =>
     sm:w-[96vw] w-[450px] mt-10 sm:mt-5'>
         <div className='flex justify-between w-full'>
             <div className='flex items-center gap-4  text-sm font-bold'>
-                <CustomIcon />
+                <Image src={XStepLogo} width={30} height={30} alt='' />
                 xSTEP staking APY
             </div>
             <div className='flex items-center text-sm gap-4 font-bold'>

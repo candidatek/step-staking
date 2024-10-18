@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { STEP_MINT, XSTEP_MINT, STEP_PROGRAM_ID } from "../../lib/constants";
 import { useStakingProgram } from "./useStakingProgram";
 
-export const useStepPerXStep = () => {
+export const useLPTokenBalance = () => {
   const program = useStakingProgram();
 
   return useQuery({
