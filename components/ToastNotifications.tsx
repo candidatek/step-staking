@@ -27,26 +27,26 @@ export const SuccessToast = ({
 }: Props) => {
   return (
     <div className="flex flex-1 items-center gap-2.5">
-      <CircleCheck size={25} color="#000" />
-      <div className="flex flex-col flex-1 gap-2.5 text-sm text-black font-normal">
-        <span className="text-base font-extrabold text-black">{message}</span>
+      <CircleCheck size={25} color="#06D6A0" />
+      <div className="flex flex-col flex-1 gap-2.5 text-sm text-liteGrey font-normal">
+        <span className="text-base font-extrabold text-liteGrey">{message}</span>
         {sendSectionTitle}
         <div className="flex items-center gap-2.5">
-          <Minus color="#000" size={16} />
+          <Minus color="#06D6A0" size={16} />
           {sendTokenIcon}
           <span className="font-mono">{sendAmount}</span>
           <span className="font-bold">{sendTokenLabel}</span>
         </div>
         <span>{"You received:"}</span>
         <div className="flex items-center gap-2.5">
-          <Plus color="#000" size={16} />
+          <Plus color="#06D6A0" size={16} />
           {receiveTokenIcon}
           <span className="font-mono">{receiveAmount}</span>
           <span className="font-bold">{receiveTokenLabel}</span>
         </div>
         <button
           onClick={onClick}
-          className="flex items-center gap-2 self-end rounded-sm text-black py-1.5 px-4 border border-gray1"
+          className="flex items-center gap-2 self-end rounded-sm text-liteGrey py-1.5 px-4 border border-gray1"
         >
           View on Solscan
           <ExternalLink size={16} color="#B2B2B2" />
@@ -61,12 +61,12 @@ export const ConfirmingTxToast: FC<{ message: string, onClick: () => void }> = (
   return (
     <div className="flex flex-1 items-center gap-2.5">
       <LoaderCircle size={25} color="blue" />
-      <div className="flex flex-col flex-1 gap-2.5 text-black font-extrabold">
+      <div className="flex flex-col flex-1 gap-2.5 text-liteGrey font-extrabold">
         {message}
-        <span className="text-sm text-black">Confirmation is in progress</span>
+        <span className="text-sm text-liteGrey">Confirmation is in progress</span>
         <button
           onClick={onClick}
-          className="flex items-center gap-2 self-end rounded-sm text-black py-1.5 px-4 border border-gray1"
+          className="flex items-center gap-2 self-end rounded-sm text-liteGrey py-1.5 px-4 border border-gray1"
         >
           View on Solscan
           <ExternalLink size={16} color="#B2B2B2" />

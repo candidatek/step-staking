@@ -31,14 +31,14 @@ export const WalletButton = () => {
                     Connect Wallet
                 </Button>
             ) : (
-                <DropdownMenu>
+                <DropdownMenu >
                     <DropdownMenuTrigger>
                         <Button className="w-[150px] bg-black-1 border text-green border-green font-bold text-center h-10 flex items-center justify-center rounded-lg">
                             {formatPublicKey(publicKey)}
                         </Button>
                     </DropdownMenuTrigger>
 
-                    <DropdownMenuContent className="bg-black-1 border border-green mt-2 rounded-lg p-2 mr-4">
+                    <DropdownMenuContent className="bg-black-1 border border-green mt-2 sm-w[50px] rounded-lg p-2 mr-4">
                         <div className="flex gap-2 items-center">
                             <DropdownMenuItem asChild>
                                 <a

@@ -32,7 +32,7 @@ export default function RootLayout({
               toastOptions={{
                 unstyled: true,
                 classNames: {
-                  toast: 'flex items-center   bg-green rounded-sm p-3  bg-card',
+                  toast: 'flex items-center  !bg-black-1 rounded-sm p-3 text-green bg-card',
                   title: 'font-semibold pr-4',
                   description: 'text-sm ',
                   icon: 'flex items-center justify-center size-10',

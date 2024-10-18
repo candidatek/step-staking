@@ -12,9 +12,9 @@ export const OutputWrapper: FC<{ token: "STEP" | "xSTEP", userInput: string }> =
   const {stepPerXstep} = data??{stepPerXstep:0};
   const receiveLPTokens = useMemo(() => {
     if(token === "STEP" ){
-      return Number(userInput) * Number(stepPerXstep)
+      return Number(userInput ?? 0) * Number(stepPerXstep)
     }else { 
-      return Number(userInput) / Number(stepPerXstep)
+      return Number(userInput ?? 0) / Number(stepPerXstep)
     }
 
   },[token, userInput, stepPerXstep])
@@ -33,7 +33,7 @@ export const OutputWrapper: FC<{ token: "STEP" | "xSTEP", userInput: string }> =
           <div className="text-white text-sm font-bold">{token}</div>
         </div>
         <div className="rounded-sm text-md font-bold !font-mono  placeholder:text-liteGrey text-right">
-          {receiveLPTokens.toFixed(2)}
+          {receiveLPTokens ? receiveLPTokens.toFixed(2) : '0.00'}
         </div>
       </div>
       <div className="w-full p-2 bg-black-1 rounded-lg  z-[100] h-[64px] flex justify-between border border-liteGrey mt-[-50px] opacity-15" />

@@ -10,7 +10,7 @@ const LandingScreen = () => {
     const { publicKey } = useWalletInfo();
 
     return (
-        <div className='h-[90vh] flex items-center justify-center'>
+        <div className='flex items-center justify-center'>
             {publicKey ? <StakeWrapper /> :
                 <WalletDisconnected />
             }
@@ -18,7 +18,7 @@ const LandingScreen = () => {
     );
 }
 
-const StakeWrapper = () =>  <div className='flex flex-col items-center'>
+const StakeWrapper = () =>  <div className='flex flex-col items-center sm:mt-4'>
     <StakeHeader />
     <StakingInfoCard />
     <StakingTabs />
@@ -26,7 +26,7 @@ const StakeWrapper = () =>  <div className='flex flex-col items-center'>
 
 const StakeHeader = () => <>  <div className='flex justify-center items-center gap-4 h-10 '>
     <Image src={StepArrow} width={32} height={32} alt="Step" />
-    <div className='text-white text-lg font-bold '>Stake STEP   </div>
+    <div className='text-white text-lg sm:text-md font-bold '>Stake STEP   </div>
 </div>
     <div className='text-liteGrey text-sm  flex items-center justify-center mt-6 sm:mt-4'>
         Stake STEP to receive xSTEP
@@ -62,7 +62,7 @@ const StakingInfoCard = () =>
 
 const WalletDisconnected = () => {
     return (
-        <div className='flex h-full flex-col justify-center items-center'>
+        <div className='flex flex-col justify-center items-center h-[90vh]'>
             <Image src={WalletNotConnected} width={160} height={160} alt="Step Wallet not connected" />
             <div className='text-white text-2xl pt-10'>Connect your wallet</div>
         </div>

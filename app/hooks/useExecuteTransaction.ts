@@ -104,7 +104,7 @@ export const useExecuteTransaction = (): useExecuteTransactionReturn => {
       toast.error("Failed to send transaction ", {
         description: err?.toString(),
         duration: 20000,
-        style: { backgroundColor: "#FF8A8A" },
+        style: { backgroundColor: "#FF8A8A !important"  },
       });
 
       setIsLoading(false);
