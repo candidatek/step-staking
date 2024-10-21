@@ -19,10 +19,11 @@ export enum TokenActions {
   Stake = "stake",
   Unstake = "unstake",
 }
-const ACTIVE_TAB_CLASSES = "!text-green !bg-black-1";
-const INACTIVE_TAB_CLASSES = "!text-white";
-const TAB_BASE_CLASSES =
-  "w-[150px] h-11 duration-500 font-extrabold !bg-black-2 !rounded-t-lg !rounded-b-none hover:!text-green";
+const tabClasses = {
+  base: "w-[150px] h-11 duration-500 font-extrabold !bg-black-2 !rounded-t-lg !rounded-b-none hover:!text-green",
+  active: "!text-green !bg-black-1",
+  inactive: "!text-white",
+};
 
 const StakingTabs = () => {
   const [activeTab, setActiveTab] = useState<TokenActions>(TokenActions.Stake);
@@ -37,9 +38,9 @@ const StakingTabs = () => {
         <TabsList className="!p-0 !m-0 h-11 bg-black">
           <TabsTrigger
             onClick={() => setActiveTab(TokenActions.Stake)}
-            className={`${TAB_BASE_CLASSES} ${activeTab === TokenActions.Stake
-              ? ACTIVE_TAB_CLASSES
-              : INACTIVE_TAB_CLASSES
+            className={`${tabClasses.base} ${activeTab === TokenActions.Stake
+              ? tabClasses.active
+              : tabClasses.inactive
               }`}
             value={TokenActions.Stake}
           >
@@ -48,9 +49,9 @@ const StakingTabs = () => {
           </TabsTrigger>
           <TabsTrigger
             onClick={() => setActiveTab(TokenActions.Unstake)}
-            className={`${TAB_BASE_CLASSES} ${activeTab === TokenActions.Unstake
-              ? ACTIVE_TAB_CLASSES
-              : INACTIVE_TAB_CLASSES
+            className={`${tabClasses.base} ${activeTab === TokenActions.Unstake
+              ? tabClasses.active
+              : tabClasses.inactive
               }`}
             value={TokenActions.Unstake}
           >
