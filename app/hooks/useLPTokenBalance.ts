@@ -1,7 +1,7 @@
 import { BN } from "@coral-xyz/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { useQuery } from "@tanstack/react-query";
-import { STEP_MINT, XSTEP_MINT, STEP_PROGRAM_ID } from "../../lib/constants";
+import { STEP_MINT, XSTEP_MINT, STEP_PROGRAM_ID, XSTEP_PRICE } from "../../lib/constants";
 import { useStakingProgram } from "./useStakingProgram";
 
 export const useLPTokenBalance = () => {
@@ -31,7 +31,7 @@ export const useLPTokenBalance = () => {
         return price;
       } catch (error) {
         console.error(error);
-        return { stepPerXstep: "1.4259904987245653", stepPerXstepE9: new BN(0) };
+        return { stepPerXstep: XSTEP_PRICE, stepPerXstepE9: new BN(0) };
       }
     },
     staleTime: 1000 * 60 * 5, // Data stays fresh for 5 minutes

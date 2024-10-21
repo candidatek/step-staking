@@ -9,3 +9,4 @@ export const STEP_PROGRAM_ID = new PublicKey(
 
 export const STEP_MINT_DECIMAL = 9;
 export const XSTEP_MINT_DECIMAL = 9;
+export const XSTEP_PRICE = "1.4259904987245653"
